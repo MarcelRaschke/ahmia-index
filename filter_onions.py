@@ -3,6 +3,8 @@
 import sys
 from elasticsearch import Elasticsearch, NotFoundError
 import settings
+import urllib3
+urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 def print_error_and_quit():
     """Printing the usage information"""
@@ -58,6 +60,7 @@ def main():
     # Connect to Elasticsearch
     es = Elasticsearch(
         [settings.ES_HOST],
+        verify_certs=False,
         ca_certs=settings.ES_CA_CERTS,
         basic_auth=(settings.ES_USERNAME, settings.ES_PASSWORD)
     )

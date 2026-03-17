@@ -2,6 +2,8 @@
 """ Point latest-tor to fresh montly indexes """
 import argparse
 from datetime import datetime, timedelta
+import urllib3
+urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 from elasticsearch import Elasticsearch
 import settings
 
@@ -58,6 +60,7 @@ def main():
     # Connect to Elasticsearch
     es = Elasticsearch(
         [settings.ES_HOST],
+        verify_certs=False,
         ca_certs=settings.ES_CA_CERTS,
         basic_auth=(settings.ES_USERNAME, settings.ES_PASSWORD)
     )
